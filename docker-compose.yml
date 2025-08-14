@@ -1,7 +1,7 @@
-version: '2'
+version: "2"
 services:
-  postgres:
-    container_name: postgres
+  stats-postgres:
+    container_name: stats-postgres
     image: pyramation/postgis
     environment:
       - "POSTGRES_USER=postgres"
