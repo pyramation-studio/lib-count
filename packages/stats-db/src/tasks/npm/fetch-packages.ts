@@ -97,6 +97,29 @@ async function processPackage(
 ): Promise<void> {
   const startTime = Date.now();
   try {
+    // Check if package already exists and is up-to-date
+    const existingPackage = await dbClient.query(
+      `SELECT package_name, creation_date, last_publish_date 
+       FROM npm_count.npm_package 
+       WHERE package_name = $1`,
+      [packageName]
+    );
+
+    if (existingPackage.rows.length > 0) {
+      const existing = existingPackage.rows[0];
+      const existingPublishDate = new Date(existing.last_publish_date);
+      const newPublishDate = new Date(publishDate);
+
+      // Skip if existing publish date is same or newer
+      if (existingPublishDate >= newPublishDate) {
+        const duration = ((Date.now() - startTime) / 1000).toFixed(2);
+        console.log(
+          `[${current}/${total}] ⏭ ${packageName} (${duration}s) - already up-to-date`
+        );
+        return;
+      }
+    }
+
     const creationDate = await npmClient.creationDate(packageName);
     await insertPackage(
       dbClient,
@@ -208,6 +231,8 @@ async function processCategories(dbClient: PoolClient): Promise<void> {
         console.log(
           `✓ Inserted ${packageName} with creation date: ${creationDate}`
         );
+      } else {
+        console.log(`⏭ ${packageName} already exists, skipping insertion`);
       }
     } catch (error) {
       console.error(

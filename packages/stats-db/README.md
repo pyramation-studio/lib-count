@@ -290,6 +290,11 @@ You can use the following npm scripts to manage your database and run indexing c
   yarn db:dump
   ```
 
+or run all at once one after the other in 1 command:
+```
+yarn npm:fetch:packages && yarn npm:fetch:downloads && yarn npm:report && yarn npm:badges && yarn npm:readme
+```
+
 ### Initial Setup Order
 
 To index from scratch, follow these steps in order:

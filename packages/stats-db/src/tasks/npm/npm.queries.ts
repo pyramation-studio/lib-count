@@ -203,20 +203,53 @@ export async function insertDailyDownloads(
   packageName: string,
   downloads: DailyDownload[]
 ): Promise<void> {
+  if (downloads.length === 0) return;
+
+  // Use bulk insert with UNNEST for better performance
   const query = `
-    INSERT INTO npm_count.daily_downloads 
-      (package_name, date, download_count)
-    VALUES ($1, $2, $3)
+    INSERT INTO npm_count.daily_downloads (package_name, date, download_count)
+    SELECT $1, * FROM UNNEST($2::date[], $3::bigint[])
     ON CONFLICT (package_name, date) 
     DO UPDATE SET 
       download_count = EXCLUDED.download_count;
   `;
 
-  await Promise.all(
-    downloads.map((download) =>
-      client.query(query, [packageName, download.date, download.downloadCount])
-    )
-  );
+  const dates = downloads.map(d => d.date);
+  const counts = downloads.map(d => d.downloadCount);
+
+  await client.query(query, [packageName, dates, counts]);
+}
+
+export async function insertDailyDownloadsBulk(
+  client: PoolClient,
+  packageDownloads: Array<{ packageName: string; downloads: DailyDownload[] }>
+): Promise<void> {
+  if (packageDownloads.length === 0) return;
+
+  // Flatten all downloads into single arrays for maximum efficiency
+  const packageNames: string[] = [];
+  const dates: Date[] = [];
+  const counts: number[] = [];
+
+  packageDownloads.forEach(({ packageName, downloads }) => {
+    downloads.forEach(download => {
+      packageNames.push(packageName);
+      dates.push(download.date);
+      counts.push(download.downloadCount);
+    });
+  });
+
+  if (packageNames.length === 0) return;
+
+  const query = `
+    INSERT INTO npm_count.daily_downloads (package_name, date, download_count)
+    SELECT * FROM UNNEST($1::text[], $2::date[], $3::bigint[])
+    ON CONFLICT (package_name, date) 
+    DO UPDATE SET 
+      download_count = EXCLUDED.download_count;
+  `;
+
+  await client.query(query, [packageNames, dates, counts]);
 }
 
 export async function updateLastFetchedDate(
@@ -230,6 +263,21 @@ export async function updateLastFetchedDate(
   `;
 
   await client.query(query, [packageName]);
+}
+
+export async function updateLastFetchedDateBulk(
+  client: PoolClient,
+  packageNames: string[]
+): Promise<void> {
+  if (packageNames.length === 0) return;
+
+  const query = `
+    UPDATE npm_count.npm_package
+    SET last_fetched_date = CURRENT_DATE
+    WHERE package_name = ANY($1);
+  `;
+
+  await client.query(query, [packageNames]);
 }
 
 export async function getAllPackages(
@@ -264,4 +312,71 @@ export async function getTotalLifetimeDownloads(
 
   const result = await client.query(query, [packageName]);
   return Number(result.rows[0].total_downloads) || 0;
+}
+
+export async function getPackagesNeedingDownloadUpdate(
+  client: PoolClient
+): Promise<Array<{ packageName: string; creationDate: Date; lastFetchedDate: Date | null }>> {
+  const query = `
+    SELECT 
+      package_name,
+      creation_date,
+      last_fetched_date
+    FROM npm_count.npm_package
+    WHERE is_active = true
+    AND (
+      last_fetched_date IS NULL 
+      OR last_fetched_date < CURRENT_DATE - INTERVAL '1 day'
+    )
+    ORDER BY 
+      CASE WHEN last_fetched_date IS NULL THEN 0 ELSE 1 END,
+      last_fetched_date ASC NULLS FIRST,
+      creation_date ASC;
+  `;
+
+  const result = await client.query(query);
+
+  return result.rows.map((row) => ({
+    packageName: row.package_name,
+    creationDate: new Date(row.creation_date),
+    lastFetchedDate: row.last_fetched_date ? new Date(row.last_fetched_date) : null,
+  }));
+}
+
+export async function getMissingDateRanges(
+  client: PoolClient,
+  packageName: string,
+  creationDate: Date
+): Promise<Array<{ start: Date; end: Date }>> {
+  // More efficient approach: use the existing missing_download_dates view
+  const query = `
+    WITH missing_dates_ordered AS (
+      SELECT missing_date
+      FROM npm_count.missing_download_dates
+      WHERE package_name = $1
+      AND missing_date >= $2::date
+      AND missing_date <= CURRENT_DATE
+      ORDER BY missing_date
+    ),
+    grouped_ranges AS (
+      SELECT 
+        missing_date,
+        missing_date - (ROW_NUMBER() OVER (ORDER BY missing_date))::integer * interval '1 day' as group_id
+      FROM missing_dates_ordered
+    )
+    SELECT 
+      MIN(missing_date) as start_date,
+      MAX(missing_date) as end_date
+    FROM grouped_ranges
+    GROUP BY group_id
+    HAVING COUNT(*) > 0
+    ORDER BY MIN(missing_date);
+  `;
+
+  const result = await client.query(query, [packageName, creationDate]);
+
+  return result.rows.map((row) => ({
+    start: new Date(row.start_date),
+    end: new Date(row.end_date),
+  }));
 }
