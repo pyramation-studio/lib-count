@@ -1,6 +1,6 @@
 import { Octokit } from "@octokit/rest";
 
-export function createOctokitClient(token: string) {
+export function createOctokitClient(token: string): Octokit {
   if (!token) {
     throw new Error("GitHub token is required");
   }
@@ -188,6 +188,6 @@ export async function makeApiCall<T>(
 }
 
 // Export a default instance for convenience
-export const defaultOctokit = createOctokitClient(
+export const defaultOctokit: Octokit = createOctokitClient(
   process.env.GITHUB_TOKEN || ""
 );
