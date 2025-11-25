@@ -78,6 +78,12 @@ pgpm deploy --database stats_dev --createdb --yes
 pgpm deploy --database stats_dev --yes
 ```
 
+Now export `DATABASE_URL`:
+
+```sh
+export DATABASE_URL=postgres://postgres:password@localhost:5432/stats_dev
+```
+
 ### Running Commands
 
 - **Fetch Packages**: Fetch package data from npm.
