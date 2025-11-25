@@ -4,6 +4,8 @@
 **/yarn-error.log
 lerna-debug.log
 
+ignore-lql-docs
+
 # SQL dump backup files and reports
 exports
 

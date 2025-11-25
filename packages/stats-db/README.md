@@ -84,30 +84,6 @@ pgpm will:
 3. Deploy the `npm` schema
 4. Track all changes in the `pgpm_migrate` schema
 
-### Verify the Deployment
-
-Verify that the deployment succeeded:
-
-```bash
-pgpm verify --database stats_dev
-```
-
-Or check the migration status:
-
-```bash
-pgpm migrate status --database stats_dev
-```
-
-### Rolling Back (Optional)
-
-If you need to revert all changes:
-
-```bash
-pgpm revert --database stats_dev
-```
-
-pgpm runs the revert scripts in reverse order, cleanly removing all changes.
-
 ## Run Application
 
 ```sh
