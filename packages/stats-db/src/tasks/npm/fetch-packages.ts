@@ -121,29 +121,72 @@ async function processWhitelistAndCategories(
     });
   });
 
-  // First, ensure all whitelisted packages exist in npm_package table
+  // First, find which whitelisted packages are missing from npm_package table
   const whitelistedPackages = Array.from(packageCategories.keys());
-  await dbClient.query(
-    `
-    INSERT INTO npm_count.npm_package (package_name, creation_date, last_publish_date)
-    SELECT 
-      pkg.name,
-      CURRENT_DATE,
-      CURRENT_DATE
-    FROM unnest($1::text[]) AS pkg(name)
-    WHERE NOT EXISTS (
-      SELECT 1 FROM npm_count.npm_package WHERE package_name = pkg.name
-    )
-    `,
+  const existingResult = await dbClient.query(
+    `SELECT package_name FROM npm_count.npm_package WHERE package_name = ANY($1)`,
     [whitelistedPackages]
   );
+  const existingPackages = new Set(
+    existingResult.rows.map((row) => row.package_name)
+  );
+  const missingPackages = whitelistedPackages.filter(
+    (pkg) => !existingPackages.has(pkg)
+  );
 
-  // Ensure all categories exist
-  const categories = new Set(Object.keys(packages));
+  // Fetch dates from npm and insert missing packages
+  if (missingPackages.length > 0) {
+    console.log(
+      `Fetching dates from npm for ${missingPackages.length} missing packages...`
+    );
+    for (let i = 0; i < missingPackages.length; i++) {
+      const packageName = missingPackages[i];
+      try {
+        await delay(RATE_LIMIT_DELAY);
+        const { creationDate, lastPublishDate } =
+          await npmClient.getPackageDates(packageName);
+        await dbClient.query(
+          `
+          INSERT INTO npm_count.npm_package (package_name, creation_date, last_publish_date)
+          VALUES ($1, $2, $3)
+          ON CONFLICT (package_name) DO UPDATE SET
+            creation_date = EXCLUDED.creation_date,
+            last_publish_date = EXCLUDED.last_publish_date,
+            updated_at = now()
+          `,
+          [packageName, creationDate, lastPublishDate]
+        );
+        console.log(
+          `[${i + 1}/${missingPackages.length}] ✓ ${packageName} (created: ${creationDate}, last publish: ${lastPublishDate})`
+        );
+      } catch (error) {
+        console.error(
+          `[${i + 1}/${missingPackages.length}] ✗ ${packageName}:`,
+          error instanceof Error ? error.message : error
+        );
+      }
+    }
+  }
+
+  // Ensure all categories exist (including "misc" for non-whitelisted packages)
+  const categories = new Set([...Object.keys(packages), "misc"]);
   const categoryMap = await ensureCategories(dbClient, Array.from(categories));
 
-  // Update package categories
+  // Re-query to find which whitelisted packages actually exist in the DB
+  const existingAfterInsert = await dbClient.query(
+    `SELECT package_name FROM npm_count.npm_package WHERE package_name = ANY($1)`,
+    [whitelistedPackages]
+  );
+  const existingPackagesSet = new Set(
+    existingAfterInsert.rows.map((row) => row.package_name)
+  );
+
+  // Update package categories (only for packages that exist in DB)
   for (const [packageName, categories] of packageCategories.entries()) {
+    if (!existingPackagesSet.has(packageName)) {
+      console.log(`⚠ Skipping ${packageName} - not found in npm_package table`);
+      continue;
+    }
     const categoryIds = categories.map((cat) => categoryMap.get(cat)!);
     await updatePackageCategories(dbClient, packageName, categoryIds);
     console.log(
@@ -151,22 +194,24 @@ async function processWhitelistAndCategories(
     );
   }
 
-  // Deactivate packages not in whitelist
+  // Add non-whitelisted packages to "misc" category
+  const miscCategoryId = categoryMap.get("misc")!;
   const result = await dbClient.query(
     `
-    UPDATE npm_count.npm_package 
-    SET is_active = false, updated_at = now()
+    SELECT package_name FROM npm_count.npm_package
     WHERE package_name NOT IN (${whitelistedPackages
       .map((_, i) => `$${i + 1}`)
       .join(", ")})
-    RETURNING package_name
     `,
     whitelistedPackages
   );
 
   if (result.rows.length > 0) {
-    console.log("\nDeactivated non-whitelisted packages:");
-    result.rows.forEach((row) => console.log(`- ${row.package_name}`));
+    console.log("\nAdding non-whitelisted packages to 'misc' category:");
+    for (const row of result.rows) {
+      await updatePackageCategories(dbClient, row.package_name, [miscCategoryId]);
+      console.log(`- ${row.package_name}`);
+    }
   }
 }
 

@@ -79,6 +79,18 @@ export class NPMRegistryClient extends APIClient {
     return formattedDate;
   }
 
+  public async getPackageDates(
+    packageName: string
+  ): Promise<{ creationDate: string; lastPublishDate: string }> {
+    const res = await this.get<any>(`/${packageName}`);
+    if (!res.time?.created) {
+      throw new Error(`package issue: ${packageName}`);
+    }
+    const creationDate = new Date(res.time.created).toISOString().split("T")[0];
+    const lastPublishDate = new Date(res.time.modified).toISOString().split("T")[0];
+    return { creationDate, lastPublishDate };
+  }
+
   public async processSearches(searchOpts: SearchOpts[]): Promise<NPMResponse> {
     const packageMap = new Map<string, NPMObject>();
     let totalCount = 0;

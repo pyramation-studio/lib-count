@@ -89,23 +89,23 @@ export DATABASE_URL=postgres://postgres:password@localhost:5432/stats_dev
 
   **Default (50 concurrent, 200ms delay):**
   ```sh
-  npm run npm:fetch:downloads
+  pnpm npm:fetch:downloads
   ```
 
   **Conservative (avoid 429 errors):**
   ```sh
-  npm run npm:fetch:downloads -- --concurrent 1 --delay 1500
+  pnpm npm:fetch:downloads -- --concurrent 1 --delay 1500
   # Or using short flags: -c 1 -d 1500
   ```
 
   **Aggressive (if rate limits improve):**
   ```sh
-  npm run npm:fetch:downloads -- --concurrent 100 --delay 100
+  pnpm npm:fetch:downloads -- --concurrent 100 --delay 100
   ```
 
   **Backfill mode (scan for gaps in historical data):**
   ```sh
-  npm run npm:fetch:downloads -- --backfill --concurrent 1 --delay 1500
+  pnpm npm:fetch:downloads -- --backfill --concurrent 1 --delay 1500
   # Or using short flag: -b
   ```
 
