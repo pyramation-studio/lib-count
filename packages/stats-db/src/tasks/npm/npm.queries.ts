@@ -204,20 +204,51 @@ export async function insertDailyDownloads(
   packageName: string,
   downloads: DailyDownload[]
 ): Promise<void> {
-  const query = `
-    INSERT INTO npm_count.daily_downloads 
+  // Get today's date normalized to UTC midnight
+  const today = new Date();
+  today.setUTCHours(0, 0, 0, 0);
+  const todayStr = today.toISOString().split('T')[0];
+
+  // Separate downloads into today's and past data
+  const todaysDownloads: DailyDownload[] = [];
+  const pastDownloads: DailyDownload[] = [];
+
+  for (const download of downloads) {
+    const downloadDateStr = download.date.toISOString().split('T')[0];
+    if (downloadDateStr === todayStr) {
+      todaysDownloads.push(download);
+    } else {
+      pastDownloads.push(download);
+    }
+  }
+
+  // For today's data: allow updates (upsert)
+  const upsertQuery = `
+    INSERT INTO npm_count.daily_downloads
       (package_name, date, download_count)
     VALUES ($1, $2, $3)
-    ON CONFLICT (package_name, date) 
-    DO UPDATE SET 
+    ON CONFLICT (package_name, date)
+    DO UPDATE SET
       download_count = EXCLUDED.download_count;
   `;
 
-  await Promise.all(
-    downloads.map((download) =>
-      client.query(query, [packageName, download.date, download.downloadCount])
-    )
-  );
+  // For past data: only insert if not exists (immutable)
+  const insertOnlyQuery = `
+    INSERT INTO npm_count.daily_downloads
+      (package_name, date, download_count)
+    VALUES ($1, $2, $3)
+    ON CONFLICT (package_name, date)
+    DO NOTHING;
+  `;
+
+  await Promise.all([
+    ...todaysDownloads.map((download) =>
+      client.query(upsertQuery, [packageName, download.date, download.downloadCount])
+    ),
+    ...pastDownloads.map((download) =>
+      client.query(insertOnlyQuery, [packageName, download.date, download.downloadCount])
+    ),
+  ]);
 }
 
 export async function updateLastFetchedDate(
@@ -264,4 +295,48 @@ export async function getTotalLifetimeDownloads(
 
   const result = await client.query(query, [packageName]);
   return Number(result.rows[0].total_downloads) || 0;
+}
+
+export async function getExistingDownloadDates(
+  client: PoolClient,
+  packageName: string
+): Promise<Set<string>> {
+  const query = `
+    SELECT date
+    FROM npm_count.daily_downloads
+    WHERE package_name = $1
+    ORDER BY date ASC;
+  `;
+
+  const result = await client.query(query, [packageName]);
+
+  return new Set(
+    result.rows.map((row) => row.date.toISOString().split('T')[0])
+  );
+}
+
+export async function getPackagesWithMissingDates(
+  client: PoolClient
+): Promise<Array<{ packageName: string; creationDate: Date; lastFetchedDate: Date | null }>> {
+  const query = `
+    SELECT
+      package_name,
+      creation_date,
+      last_fetched_date
+    FROM npm_count.npm_package
+    WHERE is_active = true
+    AND (
+      last_fetched_date IS NULL
+      OR last_fetched_date < CURRENT_DATE
+    )
+    ORDER BY creation_date ASC;
+  `;
+
+  const result = await client.query(query);
+
+  return result.rows.map((row) => ({
+    packageName: row.package_name,
+    creationDate: new Date(row.creation_date),
+    lastFetchedDate: row.last_fetched_date ? new Date(row.last_fetched_date) : null,
+  }));
 }

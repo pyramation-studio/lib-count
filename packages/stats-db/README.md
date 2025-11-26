@@ -93,10 +93,22 @@ export DATABASE_URL=postgres://postgres:password@localhost:5432/stats_dev
   ```
 
 - **Fetch Downloads**: Fetch download statistics.
-
+  **Default (50 concurrent, 200ms delay):**
   ```sh
-  pnpm npm:fetch:downloads
+  npm run npm:fetch:downloads
   ```
+
+  **Conservative (avoid 429 errors):**
+  ```sh
+  npm run npm:fetch:downloads -- --concurrent 10 --delay 1000
+  # Or using short flags: -c 10 -d 1000
+  ```
+
+  **Aggressive (if rate limits improve):**
+  ```sh
+  npm run npm:fetch:downloads -- --concurrent 100 --delay 100
+  ```
+
 
 - **Generate Report**: Generate a report based on the fetched data.
 
