@@ -14,8 +14,6 @@ Install pgpm globally:
 npm install -g pgpm
 ```
 
-For detailed setup instructions, see the [Prerequisites Guide](/docs/quickstart/01_prerequisites.md).
-
 ### Start PostgreSQL (Docker)
 
 If using Docker, start PostgreSQL with pgpm:
@@ -23,11 +21,6 @@ If using Docker, start PostgreSQL with pgpm:
 ```bash
 pgpm docker start
 ```
-
-This command:
-- Pulls the PostgreSQL Docker image (if not already downloaded)
-- Starts PostgreSQL with default configuration
-- Sets up a ready-to-use database
 
 ### Set Environment Variables
 
@@ -100,8 +93,8 @@ export DATABASE_URL=postgres://postgres:password@localhost:5432/stats_dev
 
   **Conservative (avoid 429 errors):**
   ```sh
-  npm run npm:fetch:downloads -- --concurrent 10 --delay 1000
-  # Or using short flags: -c 10 -d 1000
+  npm run npm:fetch:downloads -- --concurrent 1 --delay 1500
+  # Or using short flags: -c 1 -d 1500
   ```
 
   **Aggressive (if rate limits improve):**

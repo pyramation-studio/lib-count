@@ -1,0 +1,7 @@
+# data-loaded extension
+comment = 'data-loaded extension'
+default_version = '0.0.1'
+module_pathname = '$libdir/data-loaded'
+requires = 'stats-db'
+relocatable = false
+superuser = false
