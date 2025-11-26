@@ -10,6 +10,7 @@ interface CommandOptions {
   concurrentTasks?: number;
   rateLimitDelay?: number;
   chunkSize?: number;
+  backfill?: boolean;
 }
 
 function parseCommandOptions(args: string[]): CommandOptions {
@@ -24,6 +25,8 @@ function parseCommandOptions(args: string[]): CommandOptions {
       options.rateLimitDelay = parseInt(args[++i], 10);
     } else if (arg === '--chunk-size' || arg === '-s') {
       options.chunkSize = parseInt(args[++i], 10);
+    } else if (arg === '--backfill' || arg === '-b') {
+      options.backfill = true;
     }
   }
 
@@ -82,8 +85,10 @@ if (require.main === module) {
     console.error("  --concurrent, -c <num>   Number of concurrent package downloads (default: 50)");
     console.error("  --delay, -d <ms>         Delay between requests in milliseconds (default: 200)");
     console.error("  --chunk-size, -s <days>  Number of days per chunk (default: 30)");
+    console.error("  --backfill, -b           Force scan ALL active packages for gaps (ignores last_fetched_date)");
     console.error("\nExample:");
     console.error("  npm run task:npm fetch:downloads --concurrent 20 --delay 500");
+    console.error("  npm run task:npm fetch:downloads --backfill  # Fill in missing historical data");
     process.exit(1);
   }
 

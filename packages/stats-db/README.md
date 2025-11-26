@@ -86,6 +86,7 @@ export DATABASE_URL=postgres://postgres:password@localhost:5432/stats_dev
   ```
 
 - **Fetch Downloads**: Fetch download statistics.
+
   **Default (50 concurrent, 200ms delay):**
   ```sh
   npm run npm:fetch:downloads
@@ -101,6 +102,36 @@ export DATABASE_URL=postgres://postgres:password@localhost:5432/stats_dev
   ```sh
   npm run npm:fetch:downloads -- --concurrent 100 --delay 100
   ```
+
+  **Backfill mode (scan for gaps in historical data):**
+  ```sh
+  npm run npm:fetch:downloads -- --backfill --concurrent 1 --delay 1500
+  # Or using short flag: -b
+  ```
+
+  #### Command Options
+
+  | Option | Short | Description |
+  |--------|-------|-------------|
+  | `--concurrent` | `-c` | Number of concurrent package downloads (default: 50) |
+  | `--delay` | `-d` | Delay between requests in milliseconds (default: 200) |
+  | `--chunk-size` | `-s` | Number of days per chunk (default: 30) |
+  | `--backfill` | `-b` | Force scan ALL active packages for gaps |
+
+  #### Understanding Fetch Modes
+
+  **Normal mode** (default): Only processes packages where `last_fetched_date < TODAY`. This is efficient for daily updates but may miss gaps if a previous fetch was interrupted.
+
+  **Backfill mode** (`--backfill`): Scans ALL active packages regardless of `last_fetched_date`. For each package, it:
+  1. Retrieves all existing download dates from the database
+  2. Compares against the expected date range (creation date → today)
+  3. Identifies and fetches only the missing dates (gaps)
+  4. Updates `last_fetched_date` after successful completion
+
+  Use backfill mode when:
+  - You suspect there are gaps in historical data
+  - A previous fetch was interrupted by rate limiting (429 errors)
+  - You want to verify data completeness for all packages
 
 
 - **Generate Report**: Generate a report based on the fetched data.
@@ -148,4 +179,3 @@ To index from scratch, follow these steps in order:
    ```sh
    pnpm npm:report && pnpm npm:badges && pnpm npm:readme
    ```
-

@@ -4,6 +4,7 @@ import { NPMApiClient } from "../../npm-client";
 import {
   getPackagesWithoutDownloads,
   getAllPackages,
+  getAllActivePackages,
   insertDailyDownloads,
   updateLastFetchedDate,
   getTotalLifetimeDownloads,
@@ -376,6 +377,7 @@ async function processBatch(
 
 interface RunOptions {
   resetDb?: boolean;
+  backfill?: boolean;
   concurrentTasks?: number;
   rateLimitDelay?: number;
   chunkSize?: number;
@@ -384,6 +386,7 @@ interface RunOptions {
 async function run(options: RunOptions = {}): Promise<void> {
   const {
     resetDb: shouldResetDb = false,
+    backfill: shouldBackfill = false,
     concurrentTasks = DEFAULT_CONCURRENT_TASKS,
     rateLimitDelay = DEFAULT_RATE_LIMIT_DELAY,
     chunkSize = DEFAULT_CHUNK_SIZE,
@@ -402,11 +405,16 @@ async function run(options: RunOptions = {}): Promise<void> {
     let packages: PackageInfo[] = [];
 
     await db.withTransaction(async (dbClient: PoolClient) => {
-      // In reset mode, get all packages. Otherwise, get packages with missing dates
-      // (which includes packages with no downloads AND packages needing updates)
-      packages = shouldResetDb
-        ? await getAllPackages(dbClient)
-        : await getPackagesWithMissingDates(dbClient);
+      // In reset mode, get all packages (including inactive)
+      // In backfill mode, get all active packages (ignores last_fetched_date to find gaps)
+      // Otherwise, get packages with missing dates (stale last_fetched_date)
+      if (shouldResetDb) {
+        packages = await getAllPackages(dbClient);
+      } else if (shouldBackfill) {
+        packages = await getAllActivePackages(dbClient);
+      } else {
+        packages = await getPackagesWithMissingDates(dbClient);
+      }
     });
 
     // Convert to simpler package info format
@@ -432,10 +440,15 @@ async function run(options: RunOptions = {}): Promise<void> {
       return;
     }
 
+    const modeStr = shouldResetDb
+      ? " (RESET mode)"
+      : shouldBackfill
+        ? " (BACKFILL mode - scanning for gaps)"
+        : "";
     console.log(
       `Found ${totalPackages} package${
         totalPackages === 1 ? "" : "s"
-      } to process${shouldResetDb ? " (RESET mode)" : ""}${
+      } to process${modeStr}${
         USE_WHITELIST ? " (WHITELIST mode)" : ""
       }\n` +
         `Configuration:\n` +
@@ -500,6 +513,7 @@ async function run(options: RunOptions = {}): Promise<void> {
 
 type FetchDownloadsOptions = {
   resetDb?: boolean;
+  backfill?: boolean;
   concurrentTasks?: number;
   rateLimitDelay?: number;
   chunkSize?: number;

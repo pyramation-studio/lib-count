@@ -268,10 +268,30 @@ export async function getAllPackages(
   client: PoolClient
 ): Promise<Array<{ packageName: string; creationDate: Date }>> {
   const query = `
-    SELECT DISTINCT 
+    SELECT DISTINCT
       package_name,
       creation_date
     FROM npm_count.npm_package
+    ORDER BY creation_date ASC;
+  `;
+
+  const result = await client.query(query);
+
+  return result.rows.map((row) => ({
+    packageName: row.package_name,
+    creationDate: new Date(row.creation_date),
+  }));
+}
+
+export async function getAllActivePackages(
+  client: PoolClient
+): Promise<Array<{ packageName: string; creationDate: Date }>> {
+  const query = `
+    SELECT DISTINCT
+      package_name,
+      creation_date
+    FROM npm_count.npm_package
+    WHERE is_active = true
     ORDER BY creation_date ASC;
   `;
 

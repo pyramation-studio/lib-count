@@ -1,9 +1,9 @@
 {
-  "name": "undefined",
+  "name": "@interweb-utils/stats-db-loaded",
   "version": "0.0.1",
   "author": "Dan Lynch <pyramation@gmail.com>",
-  "description": "undefined",
-  "homepage": "https://github.com/undefined/undefined",
+  "description": "Stats database loaded",
+  "homepage": "https://github.com/hyperweb-io/lib-count",
   "license": "SEE LICENSE IN LICENSE",
   "publishConfig": {
     "access": "undefined",
@@ -24,10 +24,5 @@
   "keywords": [],
   "devDependencies": {
     "pgsql-test": "^2.13.2"
-  },
-  "pnpm": {
-    "overrides": {
-      "graphql": "14.7.0"
-    }
   }
 }

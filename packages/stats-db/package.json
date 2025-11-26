@@ -1,5 +1,5 @@
 {
-  "name": "@hyperweb-io/stats-db",
+  "name": "@interweb-utils/stats-db",
   "version": "0.0.1",
   "author": "Hyperweb <developers@hyperweb.io>",
   "description": "Stats database",
