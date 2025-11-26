@@ -1,0 +1,7 @@
+# npm extension
+comment = 'npm extension'
+default_version = '0.0.1'
+module_pathname = '$libdir/npm'
+requires = 'btree_gist,plpgsql,uuid-ossp'
+relocatable = false
+superuser = false

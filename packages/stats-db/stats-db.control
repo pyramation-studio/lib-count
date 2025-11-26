@@ -2,6 +2,6 @@
 comment = 'stats-db extension'
 default_version = '0.0.1'
 module_pathname = '$libdir/stats-db'
-requires = 'btree_gist,citext,pgcrypto,plpgsql,uuid-ossp'
+requires = 'plpgsql,uuid-ossp,npm,github'
 relocatable = false
 superuser = false

@@ -7,18 +7,9 @@ let teardown: () => Promise<void>;
 beforeAll(async () => {
   ({ pg, db, teardown } = await getConnections());
 });
-
-afterAll(async () => {
-  await teardown();
-});
-
-beforeEach(async () => {
-  await db.beforeEach();
-});
-
-afterEach(async () => {
-  await db.afterEach();
-});
+afterAll(async () => { await teardown(); });
+beforeEach(async () => { await db.beforeEach(); });
+afterEach(async () => { await db.afterEach(); });
 
 describe('first test', () => {
   it('should pass', async () => {
