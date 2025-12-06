@@ -71,6 +71,22 @@ pgpm deploy --database stats_dev --createdb --yes
 pgpm deploy --database stats_dev --yes
 ```
 
+### Load the data from before!
+(TODO BUG) - don't do this yet! 
+```sh
+pgpm deploy --database stats_dev --yes --package data-loaded
+> TopMemoryContext: 8192 total in 1 blocks; 8056 free (0 chunks); 136 used
+  pg_query: 884998208 total in 101 blocks; 6426712 free (6 chunks); 878571496 used
+  ErrorContext: 8192 total in 1 blocks; 8056 free (0 chunks); 136 used
+```
+
+Instead, do this:
+
+```sh
+cd packages/stats-db-loaded
+psql stats_db < deploy/data.sql
+```
+
 Now export `DATABASE_URL`:
 
 ```sh
