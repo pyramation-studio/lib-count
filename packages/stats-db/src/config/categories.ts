@@ -376,7 +376,7 @@ export const packages: Packages = {
     "@pgpm/uuid",
     "@pgpm/verify",
     "@pgsql/cli",
-    "pgsql"
+    "pgpm"
   ],
   stargaze: [
     "stargazejs",
