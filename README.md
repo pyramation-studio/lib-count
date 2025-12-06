@@ -70,8 +70,8 @@ A unified toolkit for building applications and smart contracts in the Interchai
 | ------- | ------ | ------- | ----- |
 | **Total** | 90,710,173 | 3,630,311 | 935,627 |
 | Web2 | 32,823,319 | 1,853,790 | 463,149 |
-| Web3 | 54,745,731 | 1,559,585 | 412,128 |
-| Utilities | 3,987,369 | 216,936 | 60,350 |
+| Web3 | 54,753,862 | 1,567,716 | 415,163 |
+| Utilities | 3,979,238 | 208,805 | 57,315 |
 
 ## Table of Contents
 
@@ -420,7 +420,8 @@ A unified toolkit for building applications and smart contracts in the Interchai
 
 | Name | Total | Monthly | Weekly |
 | ------- | ------ | ------- | ----- |
-| _Total_ | 36,372 | 35,060 | 14,903 |
+| _Total_ | 44,503 | 43,191 | 17,938 |
+| [pgpm](https://www.npmjs.com/package/pgpm) | 8,131 | 8,131 | 3,035 |
 | [@pgpm/verify](https://www.npmjs.com/package/@pgpm/verify) | 2,758 | 2,758 | 1,112 |
 | [@pgpm/types](https://www.npmjs.com/package/@pgpm/types) | 2,205 | 2,205 | 1,102 |
 | [@pgpm/default-roles](https://www.npmjs.com/package/@pgpm/default-roles) | 2,097 | 2,097 | 1,113 |
@@ -1031,4 +1032,4 @@ To the amazing Cosmology community: thank you for being part of our journey. Wit
 Let's build the future, together. 🚀
 
 
-<!-- README.md automatically generated on 2025-12-06T06:51:31.847Z from lib-count repository with latest download stats -->
+<!-- README.md automatically generated on 2025-12-06T06:57:14.492Z from lib-count repository with latest download stats -->

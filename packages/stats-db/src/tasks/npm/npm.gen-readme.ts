@@ -588,7 +588,10 @@ export async function generateReadmeNew(): Promise<string> {
   readmeContent += generateOverallStatsTable(totals);
 
   // Generate and add Table of Contents
-  const categoryKeys = Object.keys(packages);
+  // Filter out misc and math categories from display
+  const categoryKeys = Object.keys(packages).filter(
+    (key) => key !== "misc" && key !== "math"
+  );
   readmeContent += generateToc(categoryKeys);
 
   // Add individual category tables
