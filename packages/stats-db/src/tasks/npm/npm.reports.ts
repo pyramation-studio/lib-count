@@ -538,6 +538,8 @@ async function generateBadges(
     "#01A1FF"
   );
   writeBadgeFile(libCountOutputDir, "constructive_category.json", cloudBadge);
+  // Keep launchql_category.json for backwards compatibility (old npm versions may reference it)
+  writeBadgeFile(libCountOutputDir, "launchql_category.json", cloudBadge);
 
   // Utils category badge
   const utilsBadge = createBadgeJson(
