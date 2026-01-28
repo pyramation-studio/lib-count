@@ -14,7 +14,7 @@
    </a>
    <br>
    <a href="https://github.com/constructive-io/lib-count">
-      <img height="20" src="https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2Fconstructive-io%2Flib-count%2Fmain%2Foutput%2Fbadges%2Flaunchql_category.json"/>
+      <img height="20" src="https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2Fconstructive-io%2Flib-count%2Fmain%2Foutput%2Fbadges%2Fconstructive_category.json"/>
    </a>
    <a href="https://github.com/constructive-io/lib-count">
       <img height="20" src="https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2Fconstructive-io%2Flib-count%2Fmain%2Foutput%2Fbadges%2Fhyperweb_category.json"/>
@@ -811,4 +811,4 @@ Let's build the future, together. 🚀
 
 
 
-<!-- README.md automatically generated on 2026-01-28T11:25:33.656Z from lib-count repository with latest download stats -->
+<!-- README.md automatically generated on 2026-01-28T11:42:16.595Z from lib-count repository with latest download stats -->

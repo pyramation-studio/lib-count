@@ -279,8 +279,8 @@ function generateBadgesSection(repoName: string): string {
   const encodedWeeklyDownloadsUrl = encodeURIComponent(
     `${rawBaseRepoUrl}weekly_downloads.json`
   );
-  const encodedLaunchQlCategoryUrl = encodeURIComponent(
-    `${rawBaseRepoUrl}launchql_category.json`
+  const encodedConstructiveCategoryUrl = encodeURIComponent(
+    `${rawBaseRepoUrl}constructive_category.json`
   );
   const encodedHyperwebCategoryUrl = encodeURIComponent(
     `${rawBaseRepoUrl}hyperweb_category.json`
@@ -303,7 +303,7 @@ function generateBadgesSection(repoName: string): string {
    </a>
    <br>
    <a href="https://github.com/${repoName}">
-      <img height="20" src="https://img.shields.io/endpoint?url=${encodedLaunchQlCategoryUrl}"/>
+      <img height="20" src="https://img.shields.io/endpoint?url=${encodedConstructiveCategoryUrl}"/>
    </a>
    <a href="https://github.com/${repoName}">
       <img height="20" src="https://img.shields.io/endpoint?url=${encodedHyperwebCategoryUrl}"/>
