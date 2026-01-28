@@ -18,10 +18,9 @@ async function getPackageStats(
   // First, check the date range of available data for this package
   const dataRangeCheck = await dbClient.query(
     `
-    SELECT 
+    SELECT
       MIN(date) as oldest_date,
-      MAX(date) as latest_date,
-      CURRENT_DATE - MAX(date) as days_since_update
+      MAX(date) as latest_date
     FROM npm_count.daily_downloads
     WHERE package_name = $1
     GROUP BY package_name
@@ -29,39 +28,59 @@ async function getPackageStats(
     [packageName]
   );
 
-  // If no data found for this package, return null
-  if (dataRangeCheck.rows.length === 0) return null;
-
-  const latestDate = dataRangeCheck.rows[0].latest_date;
-  const daysSinceUpdate = parseInt(dataRangeCheck.rows[0].days_since_update);
-  const isStale = daysSinceUpdate > 7; // Consider data stale if more than 7 days old
-
-  // Adjust date ranges based on data availability
-  let weekStart, monthStart;
-  let dateBound = "";
-
-  if (isStale) {
-    // If data is stale, use the last available week/month of data
-    weekStart = `'${latestDate}'::date - INTERVAL '7 days'`;
-    monthStart = `'${latestDate}'::date - INTERVAL '30 days'`;
-    dateBound = ` AND d.date <= '${latestDate}'::date`;
-    console.log(
-      `Using historical data for ${packageName} (${daysSinceUpdate} days old)`
-    );
-  } else {
-    // Use current time periods if data is fresh
-    weekStart = "NOW() - INTERVAL '7 days'";
-    monthStart = "NOW() - INTERVAL '30 days'";
+  if (dataRangeCheck.rows.length === 0) {
+    return null;
   }
 
-  // Get download stats using appropriate date ranges
+  const { latest_date: db_latest_date_str } = dataRangeCheck.rows[0];
+
+  const clientNow = new Date();
+
+  let effectiveLatestDate: Date;
+  if (db_latest_date_str) {
+    const dbLatestDate = new Date(db_latest_date_str);
+    effectiveLatestDate = dbLatestDate > clientNow ? clientNow : dbLatestDate;
+  } else {
+    effectiveLatestDate = new Date("1970-01-01");
+  }
+  const effectiveLatestDateString = effectiveLatestDate
+    .toISOString()
+    .split("T")[0];
+
+  const daysSinceUpdate = Math.floor(
+    (clientNow.getTime() - effectiveLatestDate.getTime()) / (1000 * 3600 * 24)
+  );
+
+  const isStale = daysSinceUpdate > 7;
+
+  let weekStartDateString: string;
+  let monthStartDateString: string;
+
+  if (isStale) {
+    const weekStartDate = new Date(effectiveLatestDate);
+    weekStartDate.setDate(effectiveLatestDate.getDate() - 7);
+    weekStartDateString = weekStartDate.toISOString().split("T")[0];
+
+    const monthStartDate = new Date(effectiveLatestDate);
+    monthStartDate.setDate(effectiveLatestDate.getDate() - 30);
+    monthStartDateString = monthStartDate.toISOString().split("T")[0];
+  } else {
+    const weekStartDate = new Date(clientNow);
+    weekStartDate.setDate(clientNow.getDate() - 7);
+    weekStartDateString = weekStartDate.toISOString().split("T")[0];
+
+    const monthStartDate = new Date(clientNow);
+    monthStartDate.setDate(clientNow.getDate() - 30);
+    monthStartDateString = monthStartDate.toISOString().split("T")[0];
+  }
+
   const result = await dbClient.query(
     `
-    SELECT 
+    SELECT
       p.package_name,
       COALESCE(SUM(d.download_count), 0) as total_downloads,
-      COALESCE(SUM(CASE WHEN d.date >= ${monthStart}${dateBound} THEN d.download_count ELSE 0 END), 0) as monthly_downloads,
-      COALESCE(SUM(CASE WHEN d.date >= ${weekStart}${dateBound} THEN d.download_count ELSE 0 END), 0) as weekly_downloads
+      COALESCE(SUM(CASE WHEN d.date >= '${monthStartDateString}'::date ${isStale ? `AND d.date <= '${effectiveLatestDateString}'::date` : ""} THEN d.download_count ELSE 0 END), 0) as monthly_downloads,
+      COALESCE(SUM(CASE WHEN d.date >= '${weekStartDateString}'::date ${isStale ? `AND d.date <= '${effectiveLatestDateString}'::date` : ""} THEN d.download_count ELSE 0 END), 0) as weekly_downloads
     FROM npm_count.npm_package p
     LEFT JOIN npm_count.daily_downloads d ON d.package_name = p.package_name
     WHERE p.package_name = $1 AND p.is_active = true
@@ -72,24 +91,13 @@ async function getPackageStats(
 
   if (result.rows.length === 0) return null;
 
-  // Debug log to check if weekly data is being returned from the database
   const stats = {
     name: packageName,
     total: parseInt(result.rows[0].total_downloads),
     monthly: parseInt(result.rows[0].monthly_downloads),
     weekly: parseInt(result.rows[0].weekly_downloads),
   };
-
-  // Log for this package if it has non-zero downloads
-  if (stats.total > 0) {
-    console.log(`Package ${packageName} stats:`, {
-      total: stats.total,
-      monthly: stats.monthly,
-      weekly: stats.weekly,
-      isStale,
-    });
-  }
-
+  console.log(`[getPackageStats] Calculated stats for ${packageName}:`, stats);
   return stats;
 }
 
