@@ -13,6 +13,54 @@ The database uses the following key tables:
 
 ---
 
+## Aggregate Downloads/Growth
+
+```sql
+WITH current_total AS (
+    SELECT SUM(download_count) AS total
+    FROM npm_count.daily_downloads
+),
+windows AS (
+    SELECT generate_series(6, 60, 6) AS months_ago
+),
+historical_totals AS (
+    SELECT
+        w.months_ago,
+        SUM(d.download_count) AS total
+    FROM windows w
+    LEFT JOIN npm_count.daily_downloads d
+        ON d.date <= CURRENT_DATE - (w.months_ago || ' months')::interval
+    GROUP BY w.months_ago
+)
+SELECT
+    -- Label the window
+    w.months_ago || ' months ago' AS window,
+
+    -- Comma-formatted totals
+    TO_CHAR(h.total, 'FM999,999,999,999') AS downloads_prior,
+    TO_CHAR(c.total, 'FM999,999,999,999') AS downloads_today,
+
+    -- Absolute growth
+    TO_CHAR(c.total - h.total, 'FM999,999,999,999') AS growth_absolute,
+
+    -- Growth multiple
+    CASE
+        WHEN h.total IS NULL OR h.total = 0 THEN '∞'
+        ELSE
+            CASE
+                WHEN ROUND(c.total::numeric / h.total, 2) = 1
+                    THEN '1x'
+                ELSE
+                    TO_CHAR(ROUND(c.total::numeric / h.total, 2), 'FM999.99') || 'x'
+            END
+    END AS growth_multiple
+FROM historical_totals h
+CROSS JOIN current_total c
+JOIN windows w ON w.months_ago = h.months_ago
+ORDER BY w.months_ago;
+```
+
+
 ## Total Downloads
 
 ### Current Total Downloads (All Time)
