@@ -1,3 +1,4 @@
+import "../../setup-env";
 import { execute as fetchPackages } from "./fetch-packages";
 import { execute as fetchDownloads } from "./fetch-downloads";
 
