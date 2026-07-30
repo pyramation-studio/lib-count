@@ -30,6 +30,63 @@ export function readmeCategoryDisplayName(categoryName: string): string {
   return readmeCategoryDisplayNames[categoryName] ?? categoryName;
 }
 
+// ---------------------------------------------------------------------------
+// Brand rollups: which categories add up to Cloud, Chain and Utilities.
+//
+// This is the single source of truth. It used to be inlined separately in
+// npm.gen-readme.ts and npm.reports.ts, and the two copies drifted: the README
+// counted pgpm and kubernetesjs as Cloud while the badges counted only launchql,
+// so the same page showed Cloud as both 70.99M (table) and 63.7M (badge). Any new
+// rollup logic belongs here, used by both.
+//
+// Chain is the EXPLICIT list and Cloud is the fallback, deliberately. Chain is a
+// bounded set -- the Cosmos/interchain/Hyperweb tooling -- and is not growing.
+// New packages are Constructive, so defaulting to Cloud means new work counts
+// correctly without editing this file. Defaulting to Chain is what let
+// Constructive packages silently land in the Chain total.
+// ---------------------------------------------------------------------------
+
+export type BrandRollup = "cloud" | "chain" | "utils";
+
+/** Cosmos / interchain / Hyperweb tooling. */
+export const chainCategories: string[] = [
+  "cosmology",
+  "cosmos-kit",
+  "cosmos-kit-wallets",
+  "create-cosmos-app",
+  "interchain-kit",
+  "interchain-kit-wallets",
+  "interchain-js",
+  "interchain-ui",
+  "chain-registry",
+  "telescope",
+  "cosmwasm",
+  "hyperwebjs",
+  "protobufs",
+  "starship",
+  "osmosis",
+  "juno",
+  "stride",
+  "stargaze",
+  "dydx",
+  "quicksilver",
+  "chain",
+  "boilerplates",
+];
+
+/**
+ * General-purpose helpers, plus the buckets for things that are not a brand.
+ * `misc` is listed so genuinely uncategorized packages do not inflate Cloud —
+ * that is the one reason Cloud is not a pure catch-all.
+ */
+export const utilsCategories: string[] = ["utils", "math", "misc"];
+
+export function brandRollupFor(categoryName: string): BrandRollup {
+  if (chainCategories.includes(categoryName)) return "chain";
+  if (utilsCategories.includes(categoryName)) return "utils";
+  return "cloud";
+}
+
 // README Display Order
 // Categories listed here appear first in this order
 // Any categories not listed will appear after in their natural order
