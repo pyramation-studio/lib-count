@@ -50,10 +50,10 @@ A Postgres Package Manager for Modular Postgres
 
 | Category | Total | Monthly | Weekly |
 | ------- | ------ | ------- | ----- |
-| **Total** | 148,131,438 | 15,088,811 | 4,700,735 |
-| Cloud | 71,144,174 | 11,089,757 | 3,526,667 |
-| Chain | 68,928,842 | 2,120,597 | 490,880 |
-| Utilities | 9,078,126 | 1,878,457 | 683,188 |
+| **Total** | 148,131,438 | 15,072,964 | 4,697,147 |
+| Cloud | 70,671,101 | 11,059,472 | 3,517,943 |
+| Chain | 64,957,267 | 2,066,394 | 476,052 |
+| Utilities | 12,501,393 | 1,947,098 | 703,152 |
 
 
 ---
@@ -382,26 +382,21 @@ A unified toolkit for building applications and smart contracts in the Interchai
 
 | Name | Total | Monthly | Weekly |
 | ------- | ------ | ------- | ----- |
-| _Total_ | 3,323,646 | 92,565 | 24,123 |
+| _Total_ | 3,131,217 | 86,165 | 23,025 |
 | [@cosmos-kit/core](https://www.npmjs.com/package/@cosmos-kit/core) | 1,224,201 | 29,968 | 7,919 |
 | [@cosmos-kit/walletconnect](https://www.npmjs.com/package/@cosmos-kit/walletconnect) | 853,547 | 14,527 | 3,202 |
 | [@cosmos-kit/react-lite](https://www.npmjs.com/package/@cosmos-kit/react-lite) | 481,606 | 19,788 | 5,890 |
 | [@cosmos-kit/react](https://www.npmjs.com/package/@cosmos-kit/react) | 462,624 | 19,574 | 5,790 |
-| [@interchain-kit/core](https://www.npmjs.com/package/@interchain-kit/core) | 125,464 | 3,891 | 632 |
 | [cosmos-kit](https://www.npmjs.com/package/cosmos-kit) | 109,239 | 2,308 | 224 |
-| [@interchain-kit/react](https://www.npmjs.com/package/@interchain-kit/react) | 42,110 | 1,788 | 425 |
-| [interchain-kit](https://www.npmjs.com/package/interchain-kit) | 15,712 | 280 | 15 |
-| [@interchain-kit/vue](https://www.npmjs.com/package/@interchain-kit/vue) | 9,143 | 441 | 26 |
 
 ### cosmos-kit-wallets
 
 | Name | Total | Monthly | Weekly |
 | ------- | ------ | ------- | ----- |
-| _Total_ | 16,253,832 | 232,020 | 48,041 |
+| _Total_ | 15,482,017 | 225,401 | 46,222 |
 | [@cosmos-kit/keplr-extension](https://www.npmjs.com/package/@cosmos-kit/keplr-extension) | 824,579 | 13,460 | 3,595 |
 | [@cosmos-kit/keplr](https://www.npmjs.com/package/@cosmos-kit/keplr) | 801,257 | 11,458 | 2,965 |
 | [@cosmos-kit/keplr-mobile](https://www.npmjs.com/package/@cosmos-kit/keplr-mobile) | 780,336 | 12,070 | 2,932 |
-| [@cosmos-kit/leap-extension](https://www.npmjs.com/package/@cosmos-kit/leap-extension) | 771,815 | 6,619 | 1,819 |
 | [@cosmos-kit/leap-extension](https://www.npmjs.com/package/@cosmos-kit/leap-extension) | 771,815 | 6,619 | 1,819 |
 | [@cosmos-kit/leap](https://www.npmjs.com/package/@cosmos-kit/leap) | 742,269 | 6,353 | 1,769 |
 | [@cosmos-kit/leap-mobile](https://www.npmjs.com/package/@cosmos-kit/leap-mobile) | 698,252 | 6,090 | 1,677 |
@@ -511,11 +506,9 @@ A unified toolkit for building applications and smart contracts in the Interchai
 
 | Name | Total | Monthly | Weekly |
 | ------- | ------ | ------- | ----- |
-| _Total_ | 6,503,426 | 87,734 | 27,409 |
+| _Total_ | 3,562,206 | 49,258 | 15,686 |
 | [@cosmwasm/ts-codegen](https://www.npmjs.com/package/@cosmwasm/ts-codegen) | 1,697,775 | 21,465 | 6,728 |
 | [wasm-ast-types](https://www.npmjs.com/package/wasm-ast-types) | 1,574,076 | 14,606 | 4,100 |
-| [@pyramation/json-schema-ref-parser](https://www.npmjs.com/package/@pyramation/json-schema-ref-parser) | 1,476,653 | 21,120 | 6,162 |
-| [@pyramation/json-schema-to-typescript](https://www.npmjs.com/package/@pyramation/json-schema-to-typescript) | 1,464,567 | 17,356 | 5,561 |
 | [@cosmwasm/ts-codegen-types](https://www.npmjs.com/package/@cosmwasm/ts-codegen-types) | 130,094 | 6,174 | 2,397 |
 | [@cosmwasm/ts-codegen-ast](https://www.npmjs.com/package/@cosmwasm/ts-codegen-ast) | 126,308 | 6,623 | 2,393 |
 | [cosmwasm-typescript-gen](https://www.npmjs.com/package/cosmwasm-typescript-gen) | 22,343 | 100 | 9 |
@@ -582,7 +575,7 @@ A unified toolkit for building applications and smart contracts in the Interchai
 
 | Name | Total | Monthly | Weekly |
 | ------- | ------ | ------- | ----- |
-| _Total_ | 475,073 | 11,178 | 1,363 |
+| _Total_ | 465,930 | 10,737 | 1,337 |
 | [@interchain-kit/keplr-extension](https://www.npmjs.com/package/@interchain-kit/keplr-extension) | 82,365 | 2,082 | 438 |
 | [@interchain-kit/leap-extension](https://www.npmjs.com/package/@interchain-kit/leap-extension) | 69,880 | 725 | 78 |
 | [@interchain-kit/okx-extension](https://www.npmjs.com/package/@interchain-kit/okx-extension) | 63,271 | 276 | 15 |
@@ -600,7 +593,6 @@ A unified toolkit for building applications and smart contracts in the Interchai
 | [@interchain-kit/galaxy-station-extension](https://www.npmjs.com/package/@interchain-kit/galaxy-station-extension) | 12,443 | 177 | 10 |
 | [@interchain-kit/trust-extension](https://www.npmjs.com/package/@interchain-kit/trust-extension) | 11,408 | 234 | 18 |
 | [@interchain-kit/xdefi-extension](https://www.npmjs.com/package/@interchain-kit/xdefi-extension) | 10,171 | 211 | 43 |
-| [@interchain-kit/vue](https://www.npmjs.com/package/@interchain-kit/vue) | 9,143 | 441 | 26 |
 | [@interchain-kit/compass-extension](https://www.npmjs.com/package/@interchain-kit/compass-extension) | 8,084 | 220 | 21 |
 | [@interchain-kit/metamask-extension](https://www.npmjs.com/package/@interchain-kit/metamask-extension) | 8,069 | 137 | 17 |
 | [@interchain-kit/fin-extension](https://www.npmjs.com/package/@interchain-kit/fin-extension) | 6,921 | 269 | 7 |
@@ -652,7 +644,7 @@ A unified toolkit for building applications and smart contracts in the Interchai
 
 | Name | Total | Monthly | Weekly |
 | ------- | ------ | ------- | ----- |
-| _Total_ | 546,599 | 12,333 | 2,776 |
+| _Total_ | 528,449 | 12,216 | 2,765 |
 | [interchain](https://www.npmjs.com/package/interchain) | 100,615 | 2,076 | 202 |
 | [@cosmology/core](https://www.npmjs.com/package/@cosmology/core) | 54,047 | 1,443 | 966 |
 | [cosmjs-utils](https://www.npmjs.com/package/cosmjs-utils) | 51,286 | 464 | 223 |
@@ -661,7 +653,6 @@ A unified toolkit for building applications and smart contracts in the Interchai
 | [@cosmology-ui/react](https://www.npmjs.com/package/@cosmology-ui/react) | 31,422 | 164 | 52 |
 | [@cosmology-ui/utils](https://www.npmjs.com/package/@cosmology-ui/utils) | 25,949 | 116 | 35 |
 | [interchain-query](https://www.npmjs.com/package/interchain-query) | 22,598 | 327 | 73 |
-| [create-cosmos-app](https://www.npmjs.com/package/create-cosmos-app) | 18,150 | 117 | 11 |
 | [thorchain](https://www.npmjs.com/package/thorchain) | 13,589 | 1,774 | 263 |
 | [@cosmonauts/telescope](https://www.npmjs.com/package/@cosmonauts/telescope) | 8,964 | 280 | 46 |
 | [@cosmonauts/osmosis](https://www.npmjs.com/package/@cosmonauts/osmosis) | 7,962 | 277 | 48 |
@@ -744,21 +735,26 @@ A unified toolkit for building applications and smart contracts in the Interchai
 
 | Name | Total | Monthly | Weekly |
 | ------- | ------ | ------- | ----- |
-| _Total_ | 8,877,927 | 1,866,705 | 681,723 |
+| _Total_ | 12,301,194 | 1,935,346 | 701,687 |
 | [nested-obj](https://www.npmjs.com/package/nested-obj) | 2,167,052 | 795,415 | 301,287 |
 | [inquirerer](https://www.npmjs.com/package/inquirerer) | 1,926,519 | 63,224 | 14,339 |
 | [strfy-js](https://www.npmjs.com/package/strfy-js) | 1,561,526 | 789,256 | 292,380 |
 | [ast-stringify](https://www.npmjs.com/package/ast-stringify) | 1,498,895 | 19,420 | 6,457 |
+| [@pyramation/json-schema-ref-parser](https://www.npmjs.com/package/@pyramation/json-schema-ref-parser) | 1,476,653 | 21,120 | 6,162 |
+| [@pyramation/json-schema-to-typescript](https://www.npmjs.com/package/@pyramation/json-schema-to-typescript) | 1,464,567 | 17,356 | 5,561 |
+| [appstash](https://www.npmjs.com/package/appstash) | 325,847 | 20,173 | 5,523 |
 | [yanse](https://www.npmjs.com/package/yanse) | 294,318 | 25,868 | 6,434 |
 | [genomic](https://www.npmjs.com/package/genomic) | 281,069 | 42,902 | 6,165 |
 | [komoji](https://www.npmjs.com/package/komoji) | 198,278 | 13,585 | 4,275 |
 | [etag-hash](https://www.npmjs.com/package/etag-hash) | 187,518 | 33,214 | 13,548 |
 | [uuid-hash](https://www.npmjs.com/package/uuid-hash) | 150,027 | 31,228 | 13,144 |
 | [makage](https://www.npmjs.com/package/makage) | 145,457 | 7,202 | 2,507 |
+| [inflekt](https://www.npmjs.com/package/inflekt) | 112,906 | 7,817 | 2,561 |
 | [clean-ansi](https://www.npmjs.com/package/clean-ansi) | 92,406 | 1,210 | 293 |
 | [12factor-env](https://www.npmjs.com/package/12factor-env) | 72,443 | 24,020 | 15,127 |
 | [mime-bytes](https://www.npmjs.com/package/mime-bytes) | 68,009 | 5,785 | 1,973 |
 | [schema-typescript](https://www.npmjs.com/package/schema-typescript) | 66,262 | 8,836 | 2,244 |
+| [create-gen-app](https://www.npmjs.com/package/create-gen-app) | 39,607 | 2,101 | 146 |
 | [publish-scripts](https://www.npmjs.com/package/publish-scripts) | 32,828 | 157 | 65 |
 | [@pyramation/babel-preset-env](https://www.npmjs.com/package/@pyramation/babel-preset-env) | 30,478 | 206 | 53 |
 | [symlink-workspace](https://www.npmjs.com/package/symlink-workspace) | 24,576 | 1,003 | 283 |
@@ -770,17 +766,19 @@ A unified toolkit for building applications and smart contracts in the Interchai
 | [yamlize](https://www.npmjs.com/package/yamlize) | 4,592 | 1,336 | 392 |
 | [@yamlize/cli](https://www.npmjs.com/package/@yamlize/cli) | 2,762 | 357 | 118 |
 | [niftymagick](https://www.npmjs.com/package/niftymagick) | 2,177 | 44 | 2 |
+| [json-stringify-simple](https://www.npmjs.com/package/json-stringify-simple) | 1,876 | 10 | 2 |
 | [airpage-cli](https://www.npmjs.com/package/airpage-cli) | 1,510 | 10 | 2 |
 | [airpage](https://www.npmjs.com/package/airpage) | 1,416 | 21 | 1 |
-| *7 packages hidden (< 1,000 downloads)* | | | |
+| *12 packages hidden (< 1,000 downloads)* | | | |
 
 ### chain
 
 | Name | Total | Monthly | Weekly |
 | ------- | ------ | ------- | ----- |
-| _Total_ | 11,616 | 153 | 16 |
+| _Total_ | 13,219 | 164 | 18 |
 | [@juno-network/swap](https://www.npmjs.com/package/@juno-network/swap) | 4,560 | 37 | 3 |
 | [akashjs](https://www.npmjs.com/package/akashjs) | 4,009 | 18 | 2 |
+| [autosmosis](https://www.npmjs.com/package/autosmosis) | 1,603 | 11 | 2 |
 | [kavajs](https://www.npmjs.com/package/kavajs) | 1,082 | 22 | 2 |
 | *4 packages hidden (< 1,000 downloads)* | | | |
 
@@ -838,11 +836,10 @@ A unified toolkit for building applications and smart contracts in the Interchai
 
 | Name | Total | Monthly | Weekly |
 | ------- | ------ | ------- | ----- |
-| _Total_ | 7,268,251 | 1,861,127 | 647,273 |
+| _Total_ | 6,795,178 | 1,830,842 | 638,549 |
 | [@pgsql/quotes](https://www.npmjs.com/package/@pgsql/quotes) | 1,199,350 | 650,802 | 205,351 |
 | [plpgsql-deparser](https://www.npmjs.com/package/plpgsql-deparser) | 348,039 | 255,408 | 111,151 |
 | [plpgsql-parser](https://www.npmjs.com/package/plpgsql-parser) | 346,795 | 255,475 | 111,152 |
-| [appstash](https://www.npmjs.com/package/appstash) | 325,847 | 20,173 | 5,523 |
 | [find-and-require-package-json](https://www.npmjs.com/package/find-and-require-package-json) | 287,026 | 28,555 | 7,717 |
 | [@pgpmjs/core](https://www.npmjs.com/package/@pgpmjs/core) | 251,461 | 45,928 | 10,677 |
 | [@pgpmjs/types](https://www.npmjs.com/package/@pgpmjs/types) | 245,474 | 49,658 | 11,602 |
@@ -851,7 +848,6 @@ A unified toolkit for building applications and smart contracts in the Interchai
 | [@pgpmjs/logger](https://www.npmjs.com/package/@pgpmjs/logger) | 218,778 | 46,069 | 8,122 |
 | [@inquirerer/utils](https://www.npmjs.com/package/@inquirerer/utils) | 193,930 | 16,648 | 4,759 |
 | [@pgpm/verify](https://www.npmjs.com/package/@pgpm/verify) | 116,648 | 4,742 | 1,023 |
-| [inflekt](https://www.npmjs.com/package/inflekt) | 112,906 | 7,817 | 2,561 |
 | [@pgpm/types](https://www.npmjs.com/package/@pgpm/types) | 110,962 | 4,360 | 936 |
 | [@pgpm/inflection](https://www.npmjs.com/package/@pgpm/inflection) | 109,934 | 4,624 | 1,399 |
 | [@pgpm/database-jobs](https://www.npmjs.com/package/@pgpm/database-jobs) | 109,629 | 4,673 | 1,405 |
@@ -887,7 +883,6 @@ A unified toolkit for building applications and smart contracts in the Interchai
 | [@constructive-io/knative-job-worker](https://www.npmjs.com/package/@constructive-io/knative-job-worker) | 31,641 | 3,135 | 936 |
 | [@constructive-io/graphql-react](https://www.npmjs.com/package/@constructive-io/graphql-react) | 31,363 | 4,039 | 837 |
 | [@pgpm/base32](https://www.npmjs.com/package/@pgpm/base32) | 30,038 | 1,918 | 357 |
-| [supabase-test](https://www.npmjs.com/package/supabase-test) | 29,844 | 2,270 | 634 |
 | [@pgpm/jwt-claims](https://www.npmjs.com/package/@pgpm/jwt-claims) | 29,421 | 2,015 | 324 |
 | [@pgpm/utils](https://www.npmjs.com/package/@pgpm/utils) | 28,054 | 2,228 | 695 |
 | [graphile-sql-expression-validator](https://www.npmjs.com/package/graphile-sql-expression-validator) | 27,969 | 717 | 133 |
@@ -963,10 +958,8 @@ A unified toolkit for building applications and smart contracts in the Interchai
 | [@constructive-io/ui](https://www.npmjs.com/package/@constructive-io/ui) | 2,509 | 495 | 56 |
 | [graphile-pgvector-plugin](https://www.npmjs.com/package/graphile-pgvector-plugin) | 2,017 | 60 | 18 |
 | [standalone-module](https://www.npmjs.com/package/standalone-module) | 1,882 | 24 | 1 |
-| [json-stringify-simple](https://www.npmjs.com/package/json-stringify-simple) | 1,876 | 10 | 2 |
 | [@pyramation/rpc-server](https://www.npmjs.com/package/@pyramation/rpc-server) | 1,838 | 25 | 1 |
 | [@pgpm/ltree-helpers](https://www.npmjs.com/package/@pgpm/ltree-helpers) | 1,818 | 765 | 359 |
-| [autosmosis](https://www.npmjs.com/package/autosmosis) | 1,603 | 11 | 2 |
 | [postgraphile-plugin-pgvector](https://www.npmjs.com/package/postgraphile-plugin-pgvector) | 1,524 | 81 | 11 |
 | [graphile-pg-textsearch-plugin](https://www.npmjs.com/package/graphile-pg-textsearch-plugin) | 1,521 | 45 | 13 |
 | [@pyramation/postgraphile-upload-field](https://www.npmjs.com/package/@pyramation/postgraphile-upload-field) | 1,471 | 29 | 5 |
@@ -982,7 +975,7 @@ A unified toolkit for building applications and smart contracts in the Interchai
 | [coolir-commander](https://www.npmjs.com/package/coolir-commander) | 1,096 | 18 | 4 |
 | [@pyramation/docker-env](https://www.npmjs.com/package/@pyramation/docker-env) | 1,095 | 19 | 2 |
 | [@pgpm/meta-db-test](https://www.npmjs.com/package/@pgpm/meta-db-test) | 1,008 | 66 | 10 |
-| *73 packages hidden (< 1,000 downloads)* | | | |
+| *72 packages hidden (< 1,000 downloads)* | | | |
 
 
 
@@ -1009,4 +1002,4 @@ AS DESCRIBED IN THE LICENSES, THE SOFTWARE IS PROVIDED "AS IS", AT YOUR OWN RISK
 No developer or entity involved in creating this software will be liable for any claims or damages whatsoever associated with your use, inability to use, or your interaction with other users of the code, including any direct, indirect, incidental, special, exemplary, punitive or consequential damages, or loss of profits, cryptocurrencies, tokens, or anything else of value.
 
 
-<!-- README.md automatically generated on 2026-07-30T04:37:15.934Z from lib-count repository with latest download stats -->
+<!-- README.md automatically generated on 2026-07-30T07:00:08.108Z from lib-count repository with latest download stats -->

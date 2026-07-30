@@ -169,7 +169,7 @@ export const blacklistConfig: BlacklistConfig = {
 // Structured as categories with their respective packages
 export const packages: Packages = {
   misc: [
-    
+
   ],
   math: [
     "latex2html5",
@@ -185,6 +185,7 @@ export const packages: Packages = {
     "mathjaxjs",
     "mermaid2react",
     "vue-latex2js",
+
   ],
   hyperwebjs: [
     "create-hyperweb-app",
@@ -198,6 +199,7 @@ export const packages: Packages = {
     "@hyperweb/parse",
     "@hyperweb/playground",
     "@hyperweb/telescope",
+
   ],
   "interchain-js": [
     "@interchainjs/amino",
@@ -248,24 +250,26 @@ export const packages: Packages = {
     "interweb-wallet",
     "interweb",
     "interwebjs",
+
   ],
   "cosmos-kit": [
-    "interchain-kit",
-    "@interchain-kit/core",
-    "@interchain-kit/react",
-    "@interchain-kit/vue",
     "cosmos-kit",
     "@cosmos-kit/core",
     "@cosmos-kit/react",
     "@cosmos-kit/react-lite",
     "@cosmos-kit/walletconnect",
+
   ],
-  "create-cosmos-app": ["create-cosmos-app", "create-interchain-app"],
+  "create-cosmos-app": [
+    "create-cosmos-app",
+    "create-interchain-app",
+],
   "interchain-kit": [
     "interchain-kit",
     "@interchain-kit/core",
     "@interchain-kit/react",
     "@interchain-kit/vue",
+
   ],
   "interchain-kit-wallets": [
     "@interchain-kit/backpack-extension",
@@ -291,11 +295,11 @@ export const packages: Packages = {
     "@interchain-kit/station-extension",
     "@interchain-kit/cosmostation-extension",
     "@interchain-kit/galaxy-station-extension",
-    "@interchain-kit/vue",
     "@interchain-kit/cosmos-extension-metamask",
     "@interchain-kit/trust-extension",
     "@interchain-kit/leap-cosmos-extension-metamask",
     "@interchain-kit/xdefi-extension",
+
   ],
   "cosmos-kit-wallets": [
     "@cosmos-kit/arculus-mobile",
@@ -343,7 +347,6 @@ export const packages: Packages = {
     "@cosmos-kit/keplr",
     "@cosmos-kit/leap-capsule-social-login",
     "@cosmos-kit/leap-extension",
-    "@cosmos-kit/leap-extension",
     "@cosmos-kit/leap-metamask-cosmos-snap",
     "@cosmos-kit/leap-mobile",
     "@cosmos-kit/leap",
@@ -389,10 +392,10 @@ export const packages: Packages = {
     "@cosmos-wallet/react",
     "@cosmos-wallet/registry",
     "@cosmos-wallet/types",
+
   ],
   kubernetesjs: [
     "kubernetesjs",
-
     "@kubernetesjs/cli",
     "@kubernetesjs/client",
     "@kubernetesjs/manifests",
@@ -402,8 +405,6 @@ export const packages: Packages = {
 
   ],
   cosmwasm: [
-    "@pyramation/json-schema-ref-parser",
-    "@pyramation/json-schema-to-typescript",
     "@cosmwasm/ts-codegen",
     "@cosmwasm/ts-codegen-types",
     "@cosmwasm/ts-codegen-ast",
@@ -425,6 +426,7 @@ export const packages: Packages = {
     "@cosmjson/stargaze-whitelist",
     "@cosmjson/stargaze",
     "@cosmjson/wasmswap",
+
   ],
   "interchain-ui": [
     "@interweb-ui/cli",
@@ -432,7 +434,8 @@ export const packages: Packages = {
     "@interweb-ui/react",
     "@interchain-ui/react",
     "@interchain-ui/react-no-ssr",
-    "@interchain-ui/vue"
+    "@interchain-ui/vue",
+
   ],
   telescope: [
     "@cosmology/telescope",
@@ -441,7 +444,6 @@ export const packages: Packages = {
     "@cosmology/types",
     "@cosmology/utils",
     "@cosmology/proto-parser",
-
     "@osmonauts/helpers",
     "@osmonauts/telescope",
     "@osmonauts/lcd",
@@ -449,11 +451,13 @@ export const packages: Packages = {
     "@osmonauts/utils",
     "@osmonauts/types",
     "@osmonauts/proto-parser",
+
   ],
-  dydx: ["@dydxprotocol/v4-client-js"],
+  dydx: [
+    "@dydxprotocol/v4-client-js",
+],
   pgpm: [
     "@pgsql/quotes",
-    "appstash",
     "find-and-require-package-json",
     "@pgpmjs/core",
     "@pgpmjs/types",
@@ -461,7 +465,6 @@ export const packages: Packages = {
     "@inquirerer/utils",
     "@pgpmjs/server-utils",
     "@pgpmjs/logger",
-    "inflekt",
     "plpgsql-deparser",
     "plpgsql-parser",
     "@constructive-io/graphql-types",
@@ -544,10 +547,8 @@ export const packages: Packages = {
     "@constructive-io/ui",
     "pgsql-parse",
     "graphile-pgvector-plugin",
-    "json-stringify-simple",
     "standalone-module",
     "@pyramation/rpc-server",
-    "autosmosis",
     "graphile-pg-textsearch-plugin",
     "postgraphile-plugin-pgvector",
     "@pyramation/postgraphile-upload-field",
@@ -562,7 +563,6 @@ export const packages: Packages = {
     "@pgpm/ltree-helpers",
     "@pyramation/docker-env",
     "coolir-commander",
-    "babel-slim",
     "@pyramation/package-merge",
     "@pyramation/dotenv",
     "@pyramation/pg-query-native",
@@ -631,7 +631,6 @@ export const packages: Packages = {
     "pgpmjs",
     "constructivejs",
     "insforge-test",
-    "supabase-test",
     "@pgpm-testing/base32",
     "@pgpm-testing/faker",
     "@pgpm-testing/geotypes",
@@ -667,17 +666,26 @@ export const packages: Packages = {
     "@pgpm/uuid",
     "@pgpm/verify",
     "@pgsql/cli",
-    "pgpm"
+    "pgpm",
+
   ],
   stargaze: [
     "stargazejs",
     "@stargaze-zone/chain",
     "@stargaze-zone/contracts",
     "stargaze-query",
+
   ],
-  stride: ["stridejs"],
-  quicksilver: ["quicksilverjs"],
-  juno: ["juno-network", "@juno-network/assets"],
+  stride: [
+    "stridejs",
+],
+  quicksilver: [
+    "quicksilverjs",
+],
+  juno: [
+    "juno-network",
+    "@juno-network/assets",
+],
   osmosis: [
     "@mesh-security/types",
     "@osmonauts/math",
@@ -693,6 +701,7 @@ export const packages: Packages = {
     "osmojs-tsc-build",
     "osmojs",
     "osmosisjs",
+
   ],
   "chain-registry": [
     "@chain-registry/assets",
@@ -713,6 +722,7 @@ export const packages: Packages = {
     "@chain-registry/v2",
     "@chain-registry/workflows",
     "chain-registry",
+
   ],
   cosmology: [
     "@cosmology-ui/animation",
@@ -798,7 +808,6 @@ export const packages: Packages = {
     "cosmscript",
     "cosmwasm-contracts",
     "cpbf",
-    "create-cosmos-app",
     "create-cosmwasm-app",
     "cwscript",
     "da0da0",
@@ -836,17 +845,12 @@ export const packages: Packages = {
     "create-cosmos-contract",
     "create-cosmos-dapp",
     "create-evmos-app",
-    "create-gen-app",
     "create-ibc-app",
     "create-ibc-chain",
     "create-interweb-app",
     "create-juno-app",
     "create-osmo-app",
     "create-osmosis-app",
-    "create-pg-app",
-    "create-pgpm-app",
-    "create-postgres-app",
-    "create-postgresql-app",
     "create-scrt-app",
     "create-secret-app",
     "create-sql-app",
@@ -865,8 +869,9 @@ export const packages: Packages = {
     "@starship-ci/client",
     "@starship-ci/generator",
     "@starship-ci/types",
+
   ],
-  launchql: [ // SOON PGPM
+  launchql: [
     "safegres",
     "introspectron",
     "@webql/utils",
@@ -1075,7 +1080,8 @@ export const packages: Packages = {
     "skitch-transform",
     "skitch-types",
     "supabase-test",
-    // "@launchql/graphile-testing",
+    "@launchql/graphile-testing",
+
   ],
   protobufs: [
     "@cosmology/protobufjs",
@@ -1166,6 +1172,18 @@ export const packages: Packages = {
     "uuid-stream",
     "yamlize",
     "yanse",
+    "json-stringify-simple",
+    "@pyramation/json-schema-ref-parser",
+    "@pyramation/json-schema-to-typescript",
+    "appstash",
+    "babel-slim",
+    "create-gen-app",
+    "create-pg-app",
+    "create-pgpm-app",
+    "create-postgres-app",
+    "create-postgresql-app",
+    "inflekt",
+
   ],
   cloud: [
     "@interweb/casing",
@@ -1219,7 +1237,8 @@ export const packages: Packages = {
     "@sf-ai/sf-docs-embeddings",
     "@sf-bot/sf-docs-embeddings",
     "sf-bot",
-    "@san-francisco/sf-docs-embeddings"
+    "@san-francisco/sf-docs-embeddings",
+
   ],
   chain: [
     "@juno-network/swap",
@@ -1228,6 +1247,8 @@ export const packages: Packages = {
     "eve-network",
     "awesome-swap",
     "junots",
-    "@cosmos-kit/oko"
+    "@cosmos-kit/oko",
+    "autosmosis",
+
   ],
 };
