@@ -46,7 +46,14 @@ export function readmeCategoryDisplayName(categoryName: string): string {
 // Constructive packages silently land in the Chain total.
 // ---------------------------------------------------------------------------
 
-export type BrandRollup = "cloud" | "chain" | "utils";
+export type BrandRollup = "cloud" | "chain" | "utils" | "personal";
+
+/**
+ * Dan's personal projects. Still tracked and still fetched, but excluded from
+ * every company total — they are not Constructive, Chain or shared tooling, and
+ * counting them overstates the company's numbers.
+ */
+export const personalCategories: string[] = ["math"];
 
 /** Cosmos / interchain / Hyperweb tooling. */
 export const chainCategories: string[] = [
@@ -79,9 +86,10 @@ export const chainCategories: string[] = [
  * `misc` is listed so genuinely uncategorized packages do not inflate Cloud —
  * that is the one reason Cloud is not a pure catch-all.
  */
-export const utilsCategories: string[] = ["utils", "math", "misc"];
+export const utilsCategories: string[] = ["utils", "misc"];
 
 export function brandRollupFor(categoryName: string): BrandRollup {
+  if (personalCategories.includes(categoryName)) return "personal";
   if (chainCategories.includes(categoryName)) return "chain";
   if (utilsCategories.includes(categoryName)) return "utils";
   return "cloud";
