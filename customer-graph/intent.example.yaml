@@ -1,0 +1,71 @@
+# customer-graph intent spec (example). Copy to intent.yaml and adjust.
+# Describes WHAT to track and HOW each field may be derived. Contains no collected data.
+version: 1
+
+ours:
+  github_orgs: [constructive-io]          # repos whose published packages count as "ours"
+  npm_maintainers: [pyramation]           # registry search author:/maintainer:/publisher:
+  npm_scopes: ["@constructive-io", "@pgsql", "@pgpmjs", "@pgpm", "@launchql", "@libpg-query"]
+  affiliated_github_owners: [launchql, pyramation, hyperweb-io, cosmology-tech]  # flagged, not counted as customers
+  families_from: lib-count/packages/stats-db/src/config/categories.ts            # reuse brand/category mapping
+  track_families: [constructive]          # e.g. add hyperweb, cosmology later
+
+thresholds:
+  npm:
+    min_target_weekly_downloads: 0        # which of OUR packages to crawl dependents for (0 = all)
+    min_dependent_weekly_downloads: 0     # keep every edge; filter in reports
+    hop2_top_n: 20                        # bounded second hop: dependents of the top-N dependents
+  github:
+    min_stars_enrich: 10                  # enrich (profile, manifests, history) only above this
+    min_stars_history: 10                 # git-history reconstruction is expensive
+    max_manifests_per_repo: 40
+    max_lockfiles_per_repo: 6
+    history_samples: 48                   # commits sampled before bisection
+
+sources:                                  # id -> how it is used; all observations record source_id
+  npm-registry:   {url: "https://registry.npmjs.org", use: [inventory, packument, maintainers, version-history]}
+  npm-downloads:  {url: "https://api.npmjs.org/downloads/point/last-week/", use: [downloads], note: "bulk only for unscoped names"}
+  npm-web:        {url: "https://www.npmjs.com", headers: {x-spiferack: "1"}, use: [dependents, dependents-count], note: "undocumented JSON; latest version only; 36/page"}
+  ecosystems:     {url: "https://packages.ecosyste.ms/api/v1", use: [dependents, any-version-dependents], note: "undercounts; union only"}
+  depsdev:        {url: "https://api.deps.dev/v3alpha", use: [dependent-counts], note: "counts only, no names"}
+  github-dependents-html: {url: "https://github.com/<org>/<repo>/network/dependents", use: [dependents], note: "inflated, stale, transitive; must be verified"}
+  github-api:     {use: [repo-metadata, profiles, manifests, blame], auth: gh}
+  git-history:    {use: [added-removed-dates, who-added], method: "blobless clone + sampled/bisected manifest+lockfile history; git log -S"}
+  manual:         {use: [annotations, employment-claims], note: "must cite evidence_url or evidence text"}
+
+cadence:
+  npm_dependents: weekly
+  npm_downloads_snapshot: weekly
+  github_dependents: weekly
+  enrichment_refresh_days: 30
+  git_history: on-new-edge              # run when an edge first appears or disappears
+  removal_rule: "edge gets removed_at only when a COMPLETE run for its target no longer observes it"
+
+fields:
+  deterministic:                          # pure functions of a public source; no judgement
+    - package.name, version, created_on, last_publish_on, repository_url, maintainers
+    - package_download_snapshot.downloads
+    - dependency_edge (from manifests: dep_type, version_range, manifest_path)
+    - edge_observation, first_seen_at, last_seen_at, removed_at
+    - repository.stars, forks, is_fork, parent, archived, pushed_at
+    - account.login, kind, display_name, company_raw, blog, location, bio  (copied verbatim)
+    - edge_commit_event from git history / blame (sha, date, author login)
+    - npm version-history added/removed (first/last/first-without version + dates)
+  inferred:                               # need agent/human judgement; ALWAYS source_id + confidence + evidence
+    - person (merging accounts across platforms)  -> person_account.method + confidence
+    - organization (company behind a GitHub org / npm scope / domain)
+    - employment_claim (from company_raw, bio, website, or manual research)
+    - repository_owner (company owning a dependent)
+    - noise/fork/republish classification
+    - category (company | oss-project | developer | affiliated | noise)
+  confidence_levels: [high, medium, low, unknown]
+  confidence_guide:
+    high:   "explicit and first-party: repo owned by the org, or the person's own profile states it"
+    medium: "self-reported field without corroboration, or a strong indirect link"
+    low:    "name match or third-party mention only"
+
+privacy:
+  pii_schemas: [graph_people]
+  never_publish: [graph_people.*, exports with person-level rows]
+  public_ok: [graph_reports.public_badge_counts]   # aggregate counts only, after approval
+  store_emails: false
